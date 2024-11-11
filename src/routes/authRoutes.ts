@@ -1,6 +1,11 @@
 import { Router } from "express";
 import passport from "passport";
-import { googleCallback, logout } from "../controllers/authController";
+import {
+  getLoggedInUser,
+  googleCallback,
+  logout,
+} from "../controllers/authController";
+import { ensureAuthenticated } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -11,12 +16,11 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login",
-    successRedirect: "http://localhost:3001",
-  }),
+  passport.authenticate("google", { session: false }),
   googleCallback
 );
+
+router.get("/user", ensureAuthenticated, getLoggedInUser);
 
 router.get("/logout", logout);
 

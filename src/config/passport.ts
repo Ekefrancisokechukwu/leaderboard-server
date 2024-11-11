@@ -25,7 +25,7 @@ async function verifyCallback(
   profile: Profile,
   done: VerifyCallback
 ) {
-  console.log("Google data", profile);
+  // console.log("Google data", profile);
   let user = await User.findOne({ googleId: profile.id });
 
   if (!user) {

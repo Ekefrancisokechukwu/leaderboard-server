@@ -1,5 +1,6 @@
 import "express-async-errors";
 import express from "express";
+import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import passport from "./config/passport";
@@ -10,6 +11,7 @@ import errorsMiddleware from "./middlewares/errorsMiddleware";
 import notFoundMiddleware from "./middlewares/notFoundMiddleware";
 
 const app = express();
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
@@ -32,7 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use("/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/score", scoreRouter);
 app.use("/api/v1/leaderboard", leaderboardRouter);
 
